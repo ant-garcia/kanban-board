@@ -1,0 +1,15 @@
+@(message: String)(content: Html)
+
+@main("Profile"){
+	<div class="navbar navbar-fixed-top" role="navigation">
+		<div class="container">
+				<p class="navbar-brand">Home</p>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="@routes.WidgetController.showWidgetModal()">Add Widget</a></li>
+					<li><a href="@routes.Application.logout()">Logout</a></li>
+				</ul>
+		</div>
+	</div>
+	@content
+	<script type='Text/javascript' src='@routes.Assets.versioned("javascripts/app.js")'></script>
+}

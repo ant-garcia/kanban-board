@@ -1,0 +1,26 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                            controllers.Application.index()
+
+GET     /login                       controllers.Application.login()
+GET     /signup                      controllers.Application.signup()
+POST    /createUser                  controllers.Application.createUser()
+POST    /authenticate                controllers.Application.authenticate()
+GET     /logout                      controllers.Application.logout()
+GET     /home                        controllers.Application.home()
+GET     /profile                     controllers.Application.profile()
+
+# REST options
+GET     /api/widgets                controllers.WidgetController.index()
+POST    /api/widget                 controllers.WidgetController.create()
+GET     /api/widget/:id             controllers.WidgetController.get(id: Long)
+DELETE  /api/widget/:id             controllers.WidgetController.delete(id: Long)
+PUT     /api/widget/:id             controllers.WidgetController.update(id: Long)
+
+GET     /showModal                  controllers.WidgetController.showWidgetModal()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
