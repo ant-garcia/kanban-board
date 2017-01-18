@@ -37,15 +37,26 @@ public class UserDBController extends Controller{
 		return isConnected;
 	}
 
-	public void close(){
+	public boolean close(){
+		boolean isClosed = false;
+
 		try{
 			mConnection.close();
+
+			isClosed = true;
 		}catch(SQLExceception e){
 			e.printStackTrace();
 		}
+
+		return isClosed;
 	}
 
-	public void initDatabase(){
+	public void init(){
+		initDatabase();
+		initUserTable();
+	}
+
+	private void initDatabase(){
 		Statement statment = null;
 
 		try{
@@ -59,7 +70,7 @@ public class UserDBController extends Controller{
 		}
 	}
 
-	public void createUserTable(){
+	private void initUserTable(){
 		Statement statment = null;
 
 		try{
@@ -74,16 +85,16 @@ public class UserDBController extends Controller{
 		}
 	}
 
-	public void addUser(String email, String password, String name){
+	public void addUser(User user){
 		PreparedStatement statment = null;
 
 		try{
 			String query = "insert into user (email, password, name) values (?, ?, ?)";
 			statment = mConnection.prepareStatement(query);
 
-			statment.setString(1, email);
-			statment.setString(2, password);
-			statment.setString(3, name);
+			statment.setString(1, user.getEmail());
+			statment.setString(2, user.getPassword());
+			statment.setString(3, user.getName());
 			statment.execute();
 			statment.close();
 		}catch(SQLExceception e){

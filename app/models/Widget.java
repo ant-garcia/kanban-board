@@ -17,6 +17,13 @@ public class Widget{
 		mDescription = description;
 	}
 
+	public Widget(int id, String name, String status, String description){
+		mId = id;
+		mName = name;
+		mStatus = status;
+		mDescription = description;	
+	}
+
 	public int getId(){
 		return mId;
 	}
@@ -31,6 +38,10 @@ public class Widget{
 
 	public String getDescription(){
 		return mDescription;
+	}
+
+	public void setStatus(String status){
+		mStatus = status;
 	}
 
 	public String toString(){
