@@ -2,11 +2,11 @@ package controllers;
 
 import models.User;
 
-import java.query.ResultSet;
-import java.query.Statement;
-import java.query.Connection;
-import java.query.SQLException;
-import java.query.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 import javax.inject.Inject;
 
@@ -14,27 +14,20 @@ import play.db.Database;
 import play.db.NamedDatabase;
 import play.mvc.Controller;
 
-public class UserDBController extends Controller{
+public class UserDB extends Controller{
 	private static Connection mConnection;
 
 	private Database mUserDB;
 
 	@Inject
-	public UserDBController(@NamedDatabase("users") Database db){
+	public UserDB(@NamedDatabase("users") Database db){
 		mUserDB = db;
+		connect();
+		init();
 	}
 
-	public boolean connect(){
-		boolean isConnected = true;
-
-		try{
-			mConnection = mUserDB.getConnection();
-		}catch (SQLExceception e){
-			e.printStackTrace();
-			isConnected = false;
-		}
-
-		return isConnected;
+	private void connect(){
+		mConnection = mUserDB.getConnection();
 	}
 
 	public boolean close(){
@@ -44,14 +37,14 @@ public class UserDBController extends Controller{
 			mConnection.close();
 
 			isClosed = true;
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 
 		return isClosed;
 	}
 
-	public void init(){
+	private void init(){
 		initDatabase();
 		initUserTable();
 	}
@@ -65,7 +58,7 @@ public class UserDBController extends Controller{
 			statment.executeUpdate("Create database if not exists users");
 			statment.executeUpdate("use users");
 			statment.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
@@ -80,7 +73,7 @@ public class UserDBController extends Controller{
 
 			statment.executeUpdate(query);
 			statment.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
@@ -97,7 +90,7 @@ public class UserDBController extends Controller{
 			statment.setString(3, user.getName());
 			statment.execute();
 			statment.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
@@ -112,7 +105,7 @@ public class UserDBController extends Controller{
 			statment.setString(1, email);
 			statment.execute();
 			statment.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
@@ -122,7 +115,7 @@ public class UserDBController extends Controller{
 		PreparedStatement statment = null;
 
 		try{
-			String query = "select from user where email = ?";
+			String query = "select email from user where email = ?";
 			statment = mConnection.prepareStatement(query);
 
 			statment.setString(1, email);
@@ -134,7 +127,7 @@ public class UserDBController extends Controller{
 
 			statment.close();
 			resultSet.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 
@@ -146,7 +139,7 @@ public class UserDBController extends Controller{
 		PreparedStatement statment = null;
 
 		try{
-			String query = "select from user where email = ? and password = ?";
+			String query = "select * from user where email = ? and password = ?";
 			statment = mConnection.prepareStatement(query);
 
 			statment.setString(1, email);
@@ -155,11 +148,12 @@ public class UserDBController extends Controller{
 			ResultSet resultSet = statment.executeQuery();
 
 			if(resultSet.next())
+				System.out.println("HERE");
 				user = new User(resultSet.getString("name"), resultSet.getString("email"), resultSet.getString("password"));
 
 			statment.close();
 			resultSet.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 
@@ -171,17 +165,17 @@ public class UserDBController extends Controller{
 		PreparedStatement statment = null;
 
 		try{
-			String query = "select from user where email = ? and password = ?";
+			String query = "select * from user where email = ? and password = ?";
 			statment = mConnection.prepareStatement(query);
 
 			statment.setString(1, email);
-			statment.setString(2, oldpassword);
+			statment.setString(2, oldPassword);
 
 			ResultSet resultSet = statment.executeQuery();
 
 			if(resultSet.next()){
-				passwordQuery = "update user set password = ? where email = ?"
-				passwordStatement = mConnection.prepareStatement(passwordQuery);
+				String passwordQuery = "update user set password = ? where email = ?";
+				PreparedStatement passwordStatement = mConnection.prepareStatement(passwordQuery);
 
 				passwordStatement.setString(1, newPassword);
 				passwordStatement.setString(2, email);
@@ -193,10 +187,11 @@ public class UserDBController extends Controller{
 
 			statment.close();
 			resultSet.close();
-		}catch(SQLExceception e){
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 
 		return passwordChanged;
 	}
 }
+	

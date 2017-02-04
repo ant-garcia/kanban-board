@@ -1,6 +1,6 @@
 package controllers;
 
-import models.UserDB;
+import models.User;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,8 @@ public class Application extends Controller{
 	@Inject
     FormFactory mFormFactory;
 
-    UserDB db = new UserDB();
+    @Inject
+    UserDB db;
 
 	public Result index(){
 		return redirect(routes.Application.login());
@@ -39,8 +40,8 @@ public class Application extends Controller{
 		String email = mFormFactory.form().bindFromRequest().get("email");
 		String password = mFormFactory.form().bindFromRequest().get("password");
 
-		if(!db.isValid(email, password)){
-			flash("errors", "Login credentials are not valid!");
+		if(db.getUser(email, password) == null){
+			//flash("errors", "Login credentials are not valid!");
 			System.out.println("Login credentials are not valid!");
 			System.out.println(email);
 			System.out.println(password);
@@ -70,18 +71,18 @@ public class Application extends Controller{
 		String passwordConformation = mFormFactory.form().bindFromRequest().get("passwordConformation");
 
 		if(!password.equals(passwordConformation)){
-			flash("errors", "Passwords do not match!");
+			//flash("errors", "Passwords do not match!");
 			System.out.println(password);
 			System.out.println(passwordConformation);
 			System.out.println("Passwords do not match!");
 			return badRequest((signup.render("Sign Up")));
 		}
-		else if(db.isUser(email) && db.isEmpty()){
+		else if(db.containsUser(email)){
 			System.out.println("User already exists!");
 			return badRequest((signup.render("Sign Up")));	
 		}
 		else{
-			db.addUser(name, email, password);
+			db.addUser(new User(name, email, password));
 			session().clear();
 			session("email", email);
 			return redirect(routes.Application.profile());
