@@ -5,6 +5,7 @@
 # Home page
 GET     /                            controllers.Application.index()
 
+# User REST options
 GET     /login                       controllers.Application.login()
 GET     /signup                      controllers.Application.signup()
 POST    /createUser                  controllers.Application.createUser()
@@ -13,14 +14,14 @@ GET     /logout                      controllers.Application.logout()
 GET     /home                        controllers.Application.home()
 GET     /profile                     controllers.Application.profile()
 
-# REST options
-GET     /api/widgets                controllers.WidgetController.index()
-POST    /api/widget                 controllers.WidgetController.create()
-GET     /api/widget/:id             controllers.WidgetController.get(id: Long)
-DELETE  /api/widget/:id             controllers.WidgetController.delete(id: Long)
-PUT     /api/widget/:id             controllers.WidgetController.update(id: Long)
+# Widget REST options
+GET     /api/widgets                 controllers.WidgetController.index()
+POST    /api/widget                  controllers.WidgetController.createWidget()
+GET     /api/widget/:id              controllers.WidgetController.getWidget(id: Long)
+DELETE  /api/widget/:id              controllers.WidgetController.deleteWidget(id: Long)
+PUT     /api/widget/:id:status       controllers.WidgetController.update(id: Long, status)
 
-GET     /showModal                  controllers.WidgetController.showWidgetModal()
+GET     /showModal                   controllers.WidgetController.showWidgetModal()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)

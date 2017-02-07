@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.List;
 import javax.inject.Inject;
 
 import models.Widget;
@@ -14,33 +15,61 @@ public class WidgetController extends Controller{
 	@Inject
     FormFactory mFormFactory;
 
-    private Json mJson;
-	private Widget mWidget;
+    @Inject
+    WidgetDB mWidgetDB;
 
-	public Result get(long id){
-		if(mWidget == null)
-			return notFound("");
+    @Inject
+    SecurityController mSecurityController;
+
+    private Json mJson;
+	private List<Widget> mUserWidgets;
+	private final USER_EMAIL = mSecurityController.getUsername(ctx);
+
+	public Result getUserWidgets(){
+		mUserWidgets = mWidgetDB.getWidgets(USER_EMAIL);
+		if(mUserWidgets.isEmpty())
+			return redirect(showWidgetModal());
+		else
+			return ok(mJson.toJson(mUserWidgets));
+	}
+
+	public Result getWidget(long id){
+		Widget widget = mWidgetDB.getWidget(USER_EMAIL, id);
+		if(widget == null)
+			return notFound("No widget exists with that id!");
 
 		return ok(mJson.toJson(mWidget));
 	}
 
 	public Result index(){
-		return ok(mJson.toJson(mWidget));
+		return redirect(getUserWidgets());
 	}
 
-	public Result create(){
+	public Result createWidget(){
 		String name = mFormFactory.form().bindFromRequest().get("name");
 		String description = mFormFactory.form().bindFromRequest().get("description");
-		mWidget = new Widget(name, description);
+		long id = ++mWidgetDB.getUserWidgetCount(USER_EMAIL);
+
+		mWidgetDB.addWidget(USER_EMAIL, new Widget(id, name, description));
 		return redirect(routes.Application.profile());
 	}
 
-	public Result update(long id){
-		return TODO;
+	public Result updateWidget(long id, String status){
+		if(mWidgetDB.containsWidget(USER_EMAIL, id)){
+			mWidgetDB.updateWidgetStatus(USER_EMAIL, id);
+			return redirect(routes.Application.profile());
+		}
+		else
+			return notFound("No widget exists with that id!");
 	}
 
-	public Result delete(long id){
-		return TODO;
+	public Result removeWidget(long id){
+		if(mWidgetDB.containsWidget(USER_EMAIL, id)){
+			mWidgetDB.removeWidget(USER_EMAIL, id);
+			return redirect(routes.Application.profile());
+		}
+		else
+			return notFound("No widget exists with that id!");
 	}
 
 	public Result showWidgetModal(){
