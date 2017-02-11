@@ -148,7 +148,6 @@ public class UserDB extends Controller{
 			ResultSet resultSet = statment.executeQuery();
 
 			if(resultSet.next())
-				System.out.println("HERE");
 				user = new User(resultSet.getString("name"), resultSet.getString("email"), resultSet.getString("password"));
 
 			statment.close();

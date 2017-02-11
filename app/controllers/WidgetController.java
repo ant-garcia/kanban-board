@@ -19,53 +19,52 @@ public class WidgetController extends Controller{
     WidgetDB mWidgetDB;
 
     @Inject
-    SecurityController mSecurityController;
+    Application mApplication;
 
     private Json mJson;
 	private List<Widget> mUserWidgets;
-	private final USER_EMAIL = mSecurityController.getUsername(ctx);
 
 	public Result getUserWidgets(){
-		mUserWidgets = mWidgetDB.getWidgets(USER_EMAIL);
+		mUserWidgets = mWidgetDB.getWidgets(session("email"));
 		if(mUserWidgets.isEmpty())
-			return redirect(showWidgetModal());
+			return showWidgetModal();
 		else
 			return ok(mJson.toJson(mUserWidgets));
 	}
 
-	public Result getWidget(long id){
-		Widget widget = mWidgetDB.getWidget(USER_EMAIL, id);
+	public Result getWidget(int id){
+		Widget widget = mWidgetDB.getWidget(session("email"), id);
 		if(widget == null)
 			return notFound("No widget exists with that id!");
 
-		return ok(mJson.toJson(mWidget));
+		return ok(mJson.toJson(widget));
 	}
 
 	public Result index(){
-		return redirect(getUserWidgets());
+		return getUserWidgets();
 	}
 
 	public Result createWidget(){
 		String name = mFormFactory.form().bindFromRequest().get("name");
 		String description = mFormFactory.form().bindFromRequest().get("description");
-		long id = ++mWidgetDB.getUserWidgetCount(USER_EMAIL);
+		int id = mWidgetDB.getUserWidgetCount(session("email")) + 1;
 
-		mWidgetDB.addWidget(USER_EMAIL, new Widget(id, name, description));
+		mWidgetDB.addWidget(session("email"), new Widget(id, name, description));
 		return redirect(routes.Application.profile());
 	}
 
-	public Result updateWidget(long id, String status){
-		if(mWidgetDB.containsWidget(USER_EMAIL, id)){
-			mWidgetDB.updateWidgetStatus(USER_EMAIL, id);
+	public Result updateWidget(int id, String status){
+		if(mWidgetDB.containsWidget(session("email"), id)){
+			mWidgetDB.updateWidgetStatus(session("email"), id, status);
 			return redirect(routes.Application.profile());
 		}
 		else
 			return notFound("No widget exists with that id!");
 	}
 
-	public Result removeWidget(long id){
-		if(mWidgetDB.containsWidget(USER_EMAIL, id)){
-			mWidgetDB.removeWidget(USER_EMAIL, id);
+	public Result removeWidget(int id){
+		if(mWidgetDB.containsWidget(session("email"), id)){
+			mWidgetDB.removeWidget(session("email"), id);
 			return redirect(routes.Application.profile());
 		}
 		else

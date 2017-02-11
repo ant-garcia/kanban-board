@@ -5,26 +5,26 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Widget{
-	private long mId;
+	private int mId;
 	private String mName;
 	private String mStatus;
 	private String mDescription;
 
-	public Widget(long id, String name, String description){
+	public Widget(int id, String name, String description){
 		mId = id;
 		mName = name;
 		mStatus = "TODO";
 		mDescription = description;
 	}
 
-	public Widget(long id, String name, String status, String description){
+	public Widget(int id, String name, String status, String description){
 		mId = id;
 		mName = name;
 		mStatus = status;
 		mDescription = description;	
 	}
 
-	public long getId(){
+	public int getId(){
 		return mId;
 	}
 	

@@ -71,8 +71,7 @@ public class WidgetDB extends Controller{
 		try{
 			statment = mConnection.createStatement();
 			String query = "create table if not exists widget " + 
-				"(email varchar(255), id integer, name varchar(40), status varchar(10), description varchar(255), " + 
-				"primary key(email))";
+				"(email varchar(255), id integer, name varchar(40), status varchar(10), description varchar(255))";
 
 			statment.executeUpdate(query);
 			statment.close();
@@ -214,8 +213,8 @@ public class WidgetDB extends Controller{
 		return statusChanged;
 	}
 
-	public long getUserWidgetCount(String email){
-		long userWidgetCount = 0;
+	public int getUserWidgetCount(String email){
+		int userWidgetCount = 0;
 
 		PreparedStatement statment = null;
 
