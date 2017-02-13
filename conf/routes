@@ -11,7 +11,6 @@ GET     /signup                      controllers.Application.signup()
 POST    /createUser                  controllers.Application.createUser()
 POST    /authenticate                controllers.Application.authenticate()
 GET     /logout                      controllers.Application.logout()
-GET     /home                        controllers.Application.home()
 GET     /profile                     controllers.Application.profile()
 
 # Widget REST options
