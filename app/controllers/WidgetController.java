@@ -72,6 +72,6 @@ public class WidgetController extends Controller{
 	}
 
 	public Result showWidgetModal(){
-		return ok(views.html.addwidget.render());
+		return ok(views.html.addwidget.render()); //enables the widget model
 	}
 }

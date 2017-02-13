@@ -172,7 +172,7 @@ public class UserDB extends Controller{
 
 			ResultSet resultSet = statment.executeQuery();
 
-			if(resultSet.next()){
+			if(resultSet.next()){ //allow password change operation
 				String passwordQuery = "update user set password = ? where email = ?";
 				PreparedStatement passwordStatement = mConnection.prepareStatement(passwordQuery);
 

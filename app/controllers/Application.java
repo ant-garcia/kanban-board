@@ -2,14 +2,16 @@ package controllers;
 
 import models.User;
 
+import views.html.login;
+import views.html.signup;
+import views.html.profile;
+
 import javax.inject.Inject;
 
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.Controller;
 import play.data.FormFactory;
-
-import views.html.*;
 
 public class Application extends Controller{
 	@Inject
@@ -19,17 +21,12 @@ public class Application extends Controller{
     UserDB db;
 
 	public Result index(){
-		return redirect(routes.Application.login());
-	}
-
-	@Security.Authenticated(SecurityController.class)
-	public Result home(){
-		return ok(home.render("Your new application is ready."));
+		return redirect(routes.Application.login()); //just redirect to login screen
 	}
 
 	@Security.Authenticated(SecurityController.class)
 	public Result profile(){
-		return ok(profile.render("Your new application is ready.", null));
+		return ok(profile.render("Welcome " + session("email"), null));
 	}
 
 	public Result login(){
@@ -41,7 +38,6 @@ public class Application extends Controller{
 		String password = mFormFactory.form().bindFromRequest().get("password");
 
 		if(db.getUser(email, password) == null){
-			//flash("errors", "Login credentials are not valid!");
 			System.out.println("Login credentials are not valid!");
 			System.out.println(email);
 			System.out.println(password);
@@ -71,7 +67,6 @@ public class Application extends Controller{
 		String passwordConformation = mFormFactory.form().bindFromRequest().get("passwordConformation");
 
 		if(!password.equals(passwordConformation)){
-			//flash("errors", "Passwords do not match!");
 			System.out.println(password);
 			System.out.println(passwordConformation);
 			System.out.println("Passwords do not match!");
