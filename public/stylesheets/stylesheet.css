@@ -4,23 +4,34 @@ html body{
 	margin:0px;
 	width:100%;
 	height:100%;
-	overflow:hidden;
 }
 
 .navbar.navbar-fixed-top{
 	background-color: #4D5D6C;
+	margin: 0 1.5% 24px 1.5%;
+	font-size: 14pt;
 	color: #fff;
 }
 
-.nav.navbar-nav.navbar-right a{
-	color: #fff;	
+.nav.navbar-nav.navbar-left a{
+	color: #fff;
 }
 
-.nav.navbar-nav.navbar-right a:hover{
+.nav.navbar-nav.navbar-left a:hover{
+	background-color: #4D5D6C;
 	opacity: 1.0;
 }
 
-.modal.in {
+.nav.navbar-nav.navbar-right a{
+	color: #fff;
+}
+
+.nav.navbar-nav.navbar-right a:hover{
+	background-color: #4D5D6C;
+	opacity: 1.0;
+}
+
+.modal.in{
 	display:block;
 }
 
@@ -53,28 +64,56 @@ html body{
 	border: none !important;
 }
 
+.list{
+	float: left;
+	margin: 10% 1.5%;
+	width: 30%;
+}
+
+.list h2{
+	text-align:center;
+	color: #fff;
+}
+
+.list-group-item.clearfix{
+	background-color: #283E53;
+	border: none !important;
+}
+
 .card{
-	display: block;
-	position: absolute;
+	font-size: 12pt;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 	transition: 0.3s;
-	width: 40%;
-	top: 50%;
-	left: 50%;
-	margin: auto;
-	color: #fff
+	color: #fff;
+	word-wrap: break-word;
 }
 
 .card:hover{
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.card-header{
+.card-header-DONE{
 	background-color: #60B757;
-	padding-left: 15px;
+	padding: 10px 15px;
+}
+
+.card-header-IN-PROGRESS{
+	background-color: #F0AB54;
+	padding: 10px 15px;
+}
+
+.card-header-TODO{
+	background-color: #D45650;
+	padding: 10px 15px;
+}
+
+.card a{
+	margin-left: 10px;
+	float: right;
+	color: #fff;
 }
 
 .card-container{
 	background-color: #4D5D6C;
-	padding-left: 15px
+	padding: 10px 15px;
 }
