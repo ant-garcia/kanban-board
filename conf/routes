@@ -17,9 +17,9 @@ GET     /profile                     controllers.Application.profile()
 # Widget REST options
 GET     /api/widgets                 controllers.WidgetController.index()
 POST    /api/widget                  controllers.WidgetController.createWidget()
-GET     /api/widget/:id              controllers.WidgetController.getWidget(id: Long)
-DELETE  /api/widget/:id              controllers.WidgetController.deleteWidget(id: Long)
-PUT     /api/widget/:id:status       controllers.WidgetController.update(id: Long, status)
+GET     /api/widget/:id              controllers.WidgetController.getWidget(id: Integer)
+DELETE  /api/widget/:id              controllers.WidgetController.removeWidget(id: Integer)
+PUT     /api/widget/:id/:status      controllers.WidgetController.updateWidget(id: Integer, status)
 
 GET     /showModal                   controllers.WidgetController.showWidgetModal()
 
