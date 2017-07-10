@@ -1,4 +1,4 @@
-name := """todo-list"""
+name := """kanban"""
 
 version := "1.0-SNAPSHOT"
 
@@ -7,11 +7,12 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava).enablePlugins(Sbt
 scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
-	javaJdbc,
+	javaJpa,
 	cache,
 	javaWs,
-	"mysql" % "mysql-connector-java" % "5.1.36"
+	"mysql" % "mysql-connector-java" % "5.1.36",
+  	"org.hibernate" % "hibernate-core" % "5.1.0.Final",
+  	"org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final"
 )
-
 
 fork in run := true
