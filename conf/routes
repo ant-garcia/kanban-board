@@ -3,24 +3,24 @@
 # ~~~~
 
 # Home page
-GET     /                            controllers.Application.index()
+GET     /kanban                             controllers.Application.index()
 
 # User REST options
-GET     /login                       controllers.Application.login()
-GET     /signup                      controllers.Application.signup()
-POST    /createUser                  controllers.Application.createUser()
-POST    /authenticate                controllers.Application.authenticate()
-GET     /logout                      controllers.Application.logout()
-GET     /profile                     controllers.Application.profile()
+GET     /kanban/login                       controllers.Application.login()
+GET     /kanban/signup                      controllers.Application.signup()
+POST    /kanban/createUser                  controllers.Application.createUser()
+POST    /kanban/authenticate                controllers.Application.authenticate()
+GET     /kanban/logout                      controllers.Application.logout()
+GET     /kanban/profile                     controllers.Application.profile()
 
 # Widget REST options
-GET     /api/widgets                 controllers.WidgetController.index()
-POST    /api/widget                  controllers.WidgetController.createWidget()
-GET     /api/widget/:id              controllers.WidgetController.getWidget(id: Integer)
-DELETE  /api/widget/:id              controllers.WidgetController.removeWidget(id: Integer)
-PUT     /api/widget/:id/:status      controllers.WidgetController.updateWidget(id: Integer, status)
+GET     /kanban/api/widgets                 controllers.WidgetController.index()
+POST    /kanban/api/widget                  controllers.WidgetController.createWidget()
+GET     /kanban/api/widget/:id              controllers.WidgetController.getWidget(id: Integer)
+DELETE  /kanban/api/widget/:id              controllers.WidgetController.removeWidget(id: Integer)
+PUT     /kanban/api/widget/:id/:status      controllers.WidgetController.updateWidget(id: Integer, status)
 
-GET     /showModal                   controllers.WidgetController.showWidgetModal()
+GET     /kanban/showModal                   controllers.WidgetController.showWidgetModal()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
+GET     /kanban/assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
